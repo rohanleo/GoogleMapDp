@@ -30,28 +30,5 @@
         android:scaleType="centerCrop"
         android:id="@+id/ic_gps"
         android:src="@drawable/ic_gps"/>
-    <ImageView
-        android:id="@+id/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ic_gps"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
-        android:layout_weight="1"
-        android:src="@drawable/save_button"/>
-
-    <ImageView
-        android:id="@+id/reset_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/save_button"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
-        android:layout_weight="1"
-        android:src="@drawable/reset_button"/>
 
 </RelativeLayout>

@@ -33,8 +33,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.maps.android.data.kml.KmlLayer;
 
 
-import org.osmdroid.bonuspack.kml.KmlDocument;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,30 +47,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE=1234;
 
-    ///////////////////////////////////////////////
     //Widgets
     private SearchView mSearchText;
     private ImageView mgps;
-    /////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////
     //var
     private boolean mLocationPermissionGranted = false;
     GoogleMap mMap;
     private FusedLocationProviderClient mfusedLocationProviderClient;
-    ///////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////////////////
-
-    private ImageView saveButton, resetButton;
-    private KmlDocument kmlDocument;
     private Marker marker=null;
-    private KmlLayer  kmlLayer;
-
-    ///////////////////////////////////////////////////////////////////////////
-
-
-
+    private ArrayList<Marker> markerList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,8 +66,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mSearchText =  findViewById(R.id.input_search);
         mgps = findViewById(R.id.ic_gps);
-        saveButton = findViewById(R.id.save_button);
-        resetButton = findViewById(R.id.reset_button);
         getLocationPermission();
         //init();
     }
@@ -100,54 +83,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             init();
-            clickMap();
+            //clickMap();
             //savekml();
         }
     }
-
-
-
-
-    private void savekml(final Marker marker){
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                KmlLayer layer = null;
-                try {
-                     layer = new KmlLayer(mMap,R.raw.westcampus,getApplicationContext());
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    layer.addLayerToMap();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                }
-                long millis = System.currentTimeMillis();
-                File localFile = kmlDocument.getDefaultPathForAndroid("KML_" + millis + ".kml");
-                Log.d("path",localFile.getAbsolutePath());
-                kmlDocument.saveAsKML(localFile);
-                Toast.makeText(getApplicationContext(),"Polygon Saved",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //geoPoints.clear();
-                //polygon.setPoints(geoPoints);
-                mMap.clear();
-            }
-        });
-    }
-
-
-
 
     private void clickMap(){
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -164,8 +103,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Address address = list.get(0);
                     Log.d(TAG,"geolocate: found a location: " + address.toString());
                     Toast.makeText(MapActivity.this,address.toString(),Toast.LENGTH_LONG).show();
-                    moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getAddressLine(0));
+                    MarkerOptions options = new MarkerOptions().position(latLng).title(address.getAddressLine(0));
+                    Marker mk = mMap.addMarker(options);
+                    markerList.add(mk);
+                    //moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getAddressLine(0));
                 }
+            }
+        });
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                markerList.remove(marker);
+                marker.remove();
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                markerList.add(marker);
+                MarkerOptions options = new MarkerOptions().title(marker.getTitle()).position(marker.getPosition());
+                mMap.addMarker(options);
             }
         });
     }
@@ -173,6 +134,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void init(){
         Log.d(TAG,"init: initialising");
         System.out.println("check1");
+        markerList = new ArrayList<>();
         mSearchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -242,11 +204,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void moveCamera(LatLng latLng,float zoom, String title){
         Log.d(TAG,"moveCamera: moving camera to: lat " + latLng.latitude + " log: " + latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
         if (!title.equals("My location")){
             MarkerOptions options = new MarkerOptions().position(latLng).title(title);
             marker = mMap.addMarker(options);
-            savekml(marker);
+            //savekml(marker);
         }
     }
 
