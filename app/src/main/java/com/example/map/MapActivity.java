@@ -56,7 +56,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     GoogleMap mMap;
     private FusedLocationProviderClient mfusedLocationProviderClient;
 
-    private Marker marker=null;
+    private Marker marker=null,dragMarker;
     private ArrayList<Marker> markerList;
 
     @Override
@@ -83,7 +83,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             init();
-            //clickMap();
+            clickMap();
             //savekml();
         }
     }
@@ -105,6 +105,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Toast.makeText(MapActivity.this,address.toString(),Toast.LENGTH_LONG).show();
                     MarkerOptions options = new MarkerOptions().position(latLng).title(address.getAddressLine(0));
                     Marker mk = mMap.addMarker(options);
+                    mk.setDraggable(true);
                     markerList.add(mk);
                     //moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getAddressLine(0));
                 }
@@ -113,8 +114,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
-                markerList.remove(marker);
-                marker.remove();
+                //markerList.remove(marker);
+                //marker.remove();
+                dragMarker = marker;
             }
 
             @Override
@@ -124,9 +126,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-                markerList.add(marker);
+                markerList.remove(dragMarker);
+                dragMarker.remove();
                 MarkerOptions options = new MarkerOptions().title(marker.getTitle()).position(marker.getPosition());
-                mMap.addMarker(options);
+                marker = mMap.addMarker(options);
+                marker.setDraggable(true);
+                markerList.add(marker);
             }
         });
     }
