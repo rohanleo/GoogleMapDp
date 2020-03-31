@@ -1,6 +1,7 @@
 package com.example.map;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -14,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +26,8 @@ import androidx.core.content.ContextCompat;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,24 +58,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     //Widgets
     private SearchView mSearchText;
-    private ImageView mgps;
+    private ImageView mgps, mInfo;
 
     //var
     private boolean mLocationPermissionGranted = false;
     GoogleMap mMap;
     private FusedLocationProviderClient mfusedLocationProviderClient;
 
-    private Marker marker=null,dragMarker;
+    private Marker marker=null;
     private ArrayList<Marker> markerList;
+
+    private boolean isInfoDiplayed=false, isInfoAvailable=false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        if (googleServiceAvailable()){
+            mSearchText =  findViewById(R.id.input_search);
+            mgps = findViewById(R.id.ic_gps);
+            mInfo = findViewById(R.id.ic_info);
+            getLocationPermission();
+        }
 
-        mSearchText =  findViewById(R.id.input_search);
-        mgps = findViewById(R.id.ic_gps);
-        getLocationPermission();
         //init();
     }
 
@@ -109,11 +116,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if(list.size()>0){
                     Address address = list.get(0);
                     Log.d(TAG,"geolocate: found a location: " + address.toString());
-                    Toast.makeText(MapActivity.this,address.toString(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MapActivity.this,address.toString(),Toast.LENGTH_LONG).show();
                     MarkerOptions options = new MarkerOptions().position(latLng).title("Add details");
                     Marker mk = mMap.addMarker(options);
                     mk.setDraggable(true);
                     markerList.add(mk);
+
                     //moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getAddressLine(0));
                 }
             }
@@ -141,33 +149,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 //markerList.add(marker);
             }
         });
-        /*mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                if(marker.getTitle().equals("Add details")){
-                    View view = getLayoutInflater().inflate(R.layout.add_details_layout,null);
-                    final MaterialStyledDialog materialStyledDialog = new MaterialStyledDialog.Builder(MapActivity.this)
-                            .setCustomView(view, 10, 20, 10, 20)
-                            .withDialogAnimation(true, Duration.FAST)
-                            .setCancelable(false)
-                            .withDarkerOverlay(true)
-                            .build();
-                }
-            }
-        });*/
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(final Marker marker) {
-                if(marker.isInfoWindowShown()){
-                    marker.hideInfoWindow();
-                }
                 if (marker.getTitle().equals("Add details")){
                     View view = getLayoutInflater().inflate(R.layout.add_details_layout,null);
                     final MaterialStyledDialog materialStyledDialog = new MaterialStyledDialog.Builder(MapActivity.this)
                             .setTitle("Add Details")
                             .setCustomView(view, 10, 20, 10, 20)
                             .withDialogAnimation(true, Duration.FAST)
-                            .setCancelable(false)
+                            .setCancelable(true)
                             .setStyle(Style.HEADER_WITH_TITLE)
                             .withDarkerOverlay(true)
                             .build();
@@ -212,16 +203,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     materialStyledDialog.show();
                     marker.setTitle("done");
                     marker.setTag(info);
+                    marker.hideInfoWindow();
                 }
                 else {
-                    if(marker.isInfoWindowShown()){
+                    if(isInfoDiplayed){
                         marker.hideInfoWindow();
+                        isInfoDiplayed=false;
                     }
                     else{
                         marker.showInfoWindow();
+                        isInfoDiplayed=true;
                     }
                 }
-                return false;
+                return true;
             }
         });
 
@@ -251,6 +245,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 getDeviceLocation();
             }
         });
+        mInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = getLayoutInflater().inflate(R.layout.instruction_layout,null);
+                final MaterialStyledDialog materialStyledDialog = new MaterialStyledDialog.Builder(MapActivity.this)
+                        .setTitle("How to use")
+                        .setCustomView(view, 10, 20, 10, 20)
+                        .withDialogAnimation(true, Duration.FAST)
+                        .setCancelable(true)
+                        .setStyle(Style.HEADER_WITH_TITLE)
+                        .withDarkerOverlay(true)
+                        .build();
+                materialStyledDialog.show();
+            }
+        });
     }
 
     private void geoLocate(){
@@ -266,7 +275,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if(list.size()>0){
             Address address = list.get(0);
             Log.d(TAG,"geolocate: found a location: " + address.toString());
-            Toast.makeText(this,address.toString(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,address.toString(),Toast.LENGTH_SHORT).show();
             moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getAddressLine(0));
         }
     }
@@ -362,4 +371,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    public boolean googleServiceAvailable()
+    {
+        GoogleApiAvailability api =GoogleApiAvailability.getInstance();
+        int isAvailable = api.isGooglePlayServicesAvailable(this);
+        if(isAvailable == ConnectionResult.SUCCESS){
+            return true;
+        }
+        else if (api.isUserResolvableError(isAvailable)){
+            Dialog dialog = api.getErrorDialog(this,isAvailable,0);
+            dialog.show();
+        }
+        else{
+            Toast.makeText(this,"Cant connect to play Service", Toast.LENGTH_LONG).show();
+        }
+        return false;
+    }
 }
