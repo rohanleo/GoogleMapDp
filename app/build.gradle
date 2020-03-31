@@ -32,5 +32,6 @@ dependencies {
 
     //for location
     implementation "com.google.android.gms:play-services-location:17.0.0"
-
+    //Material Dialog
+    implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
 }

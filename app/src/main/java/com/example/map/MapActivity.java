@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -103,7 +110,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Address address = list.get(0);
                     Log.d(TAG,"geolocate: found a location: " + address.toString());
                     Toast.makeText(MapActivity.this,address.toString(),Toast.LENGTH_LONG).show();
-                    MarkerOptions options = new MarkerOptions().position(latLng).title(address.getAddressLine(0));
+                    MarkerOptions options = new MarkerOptions().position(latLng).title("Add details");
                     Marker mk = mMap.addMarker(options);
                     mk.setDraggable(true);
                     markerList.add(mk);
@@ -116,7 +123,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onMarkerDragStart(Marker marker) {
                 //markerList.remove(marker);
                 //marker.remove();
-                dragMarker = marker;
+                //dragMarker = marker;
             }
 
             @Override
@@ -126,14 +133,100 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-                markerList.remove(dragMarker);
-                dragMarker.remove();
-                MarkerOptions options = new MarkerOptions().title(marker.getTitle()).position(marker.getPosition());
-                marker = mMap.addMarker(options);
+                //markerList.remove(dragMarker);
+                //dragMarker.remove();
+                //MarkerOptions options = new MarkerOptions().title(marker.getTitle()).position(marker.getPosition());
+                //marker = mMap.addMarker(options);
                 marker.setDraggable(true);
-                markerList.add(marker);
+                //markerList.add(marker);
             }
         });
+        /*mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if(marker.getTitle().equals("Add details")){
+                    View view = getLayoutInflater().inflate(R.layout.add_details_layout,null);
+                    final MaterialStyledDialog materialStyledDialog = new MaterialStyledDialog.Builder(MapActivity.this)
+                            .setCustomView(view, 10, 20, 10, 20)
+                            .withDialogAnimation(true, Duration.FAST)
+                            .setCancelable(false)
+                            .withDarkerOverlay(true)
+                            .build();
+                }
+            }
+        });*/
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(final Marker marker) {
+                if(marker.isInfoWindowShown()){
+                    marker.hideInfoWindow();
+                }
+                if (marker.getTitle().equals("Add details")){
+                    View view = getLayoutInflater().inflate(R.layout.add_details_layout,null);
+                    final MaterialStyledDialog materialStyledDialog = new MaterialStyledDialog.Builder(MapActivity.this)
+                            .setTitle("Add Details")
+                            .setCustomView(view, 10, 20, 10, 20)
+                            .withDialogAnimation(true, Duration.FAST)
+                            .setCancelable(false)
+                            .setStyle(Style.HEADER_WITH_TITLE)
+                            .withDarkerOverlay(true)
+                            .build();
+
+                    Button btnsave, btndel;
+                    final EditText name = view.findViewById(R.id.name1);
+                    final Spinner type = view.findViewById(R.id.type1);
+                    final EditText opening = view.findViewById(R.id.openingTime1);
+                    final EditText closing = view.findViewById(R.id.closingTime1);
+                    final EditText addedby = view.findViewById(R.id.addedBy1);
+                    final EditText addedon = view.findViewById(R.id.addedOn1);
+                    final EditText remark = view.findViewById(R.id.remark1);
+                    final EditText phoneNum = view.findViewById(R.id.phoneNum1);
+
+                    final InfoWindowData info = new InfoWindowData();
+
+                    btnsave = view.findViewById(R.id.save);
+                    btndel = view.findViewById(R.id.delete);
+                    btndel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            marker.remove();
+                            markerList.remove(marker);
+                            materialStyledDialog.dismiss();
+                        }
+                    });
+                    btnsave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            info.setName(name.getText().toString());
+                            info.setType(type.getSelectedItem().toString());
+                            info.setOpening(opening.getText().toString());
+                            info.setClosing(closing.getText().toString());
+                            info.setPhoneNum(phoneNum.getText().toString());
+                            info.setAddedby(addedby.getText().toString());
+                            info.setAddedon(addedon.getText().toString());
+                            info.setRemark(remark.getText().toString());
+                            materialStyledDialog.dismiss();
+                            marker.hideInfoWindow();
+                        }
+                    });
+                    materialStyledDialog.show();
+                    marker.setTitle("done");
+                    marker.setTag(info);
+                }
+                else {
+                    if(marker.isInfoWindowShown()){
+                        marker.hideInfoWindow();
+                    }
+                    else{
+                        marker.showInfoWindow();
+                    }
+                }
+                return false;
+            }
+        });
+
+        MyInfoWindowAdapter myInfoWindowAdapter = new MyInfoWindowAdapter(this);
+        mMap.setInfoWindowAdapter(myInfoWindowAdapter);
     }
 
     private void init(){

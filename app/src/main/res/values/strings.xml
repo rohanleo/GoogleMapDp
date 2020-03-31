@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">map</string>
+
+    <string-array name="types">
+        <item>Grocery Shop</item>
+        <item>Hospital</item>
+        <item>Gas Station</item>
+    </string-array>
 </resources>
