@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,6 +49,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.data.kml.KmlLayer;
 
 
@@ -78,7 +84,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //private GoogleApiClient mGoogleApiClient;
 
     private Marker marker = null;
-    private ArrayList<Marker> markerList;
+    DatabaseReference databaseMarkers;
+    //private ArrayList<Marker> markerList;
 
     private boolean isInfoDiplayed = false, isInfoAvailable = false;
 
@@ -86,28 +93,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        //checkGps();
-        if (googleServiceAvailable()) {
+        databaseMarkers= FirebaseDatabase.getInstance().getReference("geojson");
             mSearchText = findViewById(R.id.input_search);
             mgps = findViewById(R.id.ic_gps);
             mInfo = findViewById(R.id.ic_info);
             getLocationPermission();
-        }
     }
-
-    /*private void checkGps() {
-        LocationManager manager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Toast.makeText(MapActivity.this,"Please Turn on your GPS",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-            /*if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                Toast.makeText(MapActivity.this,"GPS is not available",Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-    }*/
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -126,6 +117,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        databaseMarkers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //markerList.clear();
+                for(DataSnapshot markerSnapshot:dataSnapshot.getChildren()){
+                    InfoWindowData info = markerSnapshot.getValue(InfoWindowData.class);
+                    MarkerOptions options = new MarkerOptions().position(new LatLng(info.getLat(),info.getLng()))
+                            .title("Details Available");
+                    Marker mk = mMap.addMarker(options);
+                    mk.setDraggable(true);
+                    //markerList.add(mk);
+                    mk.setTag(info);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void clickMap(){
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -141,15 +157,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Address address = list.get(0);
                     Log.d(TAG,"geolocate: found a location: " + address.toString());
                     //Toast.makeText(MapActivity.this,address.toString(),Toast.LENGTH_LONG).show();
-                    MarkerOptions options = new MarkerOptions().position(latLng).title("Add details");
+                    MarkerOptions options = new MarkerOptions().position(latLng).title("No Details");
                     Marker mk = mMap.addMarker(options);
                     mk.setDraggable(true);
-                    markerList.add(mk);
-                    moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getAddressLine(0));
+                    //markerList.add(mk);
+                    //moveCamera(new LatLng(address.getLatitude(),address.getLongitude()),15f,address.getAddressLine(0));
                 }
             }
         });
-        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+        /*mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
                 //markerList.remove(marker);
@@ -171,12 +187,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 marker.setDraggable(true);
                 //markerList.add(marker);
             }
-        });
+        });*/
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(final Marker marker) {
-                if (marker.getTitle().equals("Add details")){
+                if (marker.getTitle().equals("No Details")){
                     setDetails(marker);
+                    marker.setTitle("Details Available");
                 }
                 else {
                     if(isInfoDiplayed){
@@ -191,7 +208,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return true;
             }
         });
-
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(final Marker marker) {
+                setDetails(marker);
+            }
+        });
         MyInfoWindowAdapter myInfoWindowAdapter = new MyInfoWindowAdapter(this);
         mMap.setInfoWindowAdapter(myInfoWindowAdapter);
     }
@@ -207,7 +229,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .withDarkerOverlay(true)
                 .build();
 
-        Button btnsave, btndel;
+        Button btnsave, btndel,chat;
         final EditText name = view.findViewById(R.id.name1);
         final Spinner type = view.findViewById(R.id.type1);
         final EditText opening = view.findViewById(R.id.openingTime1);
@@ -215,15 +237,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         final EditText remark = view.findViewById(R.id.remark1);
         final EditText phoneNum = view.findViewById(R.id.phoneNum1);
 
-        final InfoWindowData info = new InfoWindowData();
+        final InfoWindowData info;
+        if(marker.getTitle().equals("No Details"))
+        {
+            info = new InfoWindowData();
+            info.setId(databaseMarkers.push().getKey());
+        }
+        else
+        {
+            info= (InfoWindowData) marker.getTag();
+            name.setText(info.getName());
+            opening.setText(info.getOpening());
+            closing.setText(info.getClosing());
+            phoneNum.setText(info.getPhoneNum());
+            remark.setText(info.getRemark());
+            type.setSelection(((ArrayAdapter<String>)type.getAdapter()).getPosition(info.getType()));
+        }
 
         btnsave = view.findViewById(R.id.save);
         btndel = view.findViewById(R.id.delete);
+        chat = view.findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         btndel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 marker.remove();
-                markerList.remove(marker);
+                //markerList.remove(marker);
+                databaseMarkers.child(info.getId()).removeValue();
                 materialStyledDialog.dismiss();
             }
         });
@@ -238,9 +283,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 info.setAddedby(LoginActivity.userName.getText().toString());
                 info.setAddedon(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
                 info.setRemark(remark.getText().toString());
+                info.setLat(marker.getPosition().latitude);
+                info.setLng(marker.getPosition().longitude);
+                databaseMarkers.child(info.getId()).setValue(info);
+                Toast.makeText(MapActivity.this, "Details Saved", Toast.LENGTH_SHORT).show();
                 materialStyledDialog.dismiss();
                 marker.hideInfoWindow();
-                marker.setTitle("Details Available");
+                marker.remove();
             }
         });
         materialStyledDialog.show();
@@ -251,7 +300,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void init(){
         Log.d(TAG,"init: initialising");
         System.out.println("check1");
-        markerList = new ArrayList<>();
+        //markerList = new ArrayList<>();
         mSearchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -364,23 +413,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
-    }
-
-    public boolean googleServiceAvailable()
-    {
-        GoogleApiAvailability api =GoogleApiAvailability.getInstance();
-        int isAvailable = api.isGooglePlayServicesAvailable(MapActivity.this);
-        if(isAvailable == ConnectionResult.SUCCESS){
-            return true;
-        }
-        else if (api.isUserResolvableError(isAvailable)){
-            Dialog dialog = api.getErrorDialog(MapActivity.this,isAvailable,9001);
-            dialog.show();
-        }
-        else{
-            Toast.makeText(this,"Cant connect to play Service", Toast.LENGTH_LONG).show();
-        }
-        return false;
     }
 
     private void getDeviceLocation(){

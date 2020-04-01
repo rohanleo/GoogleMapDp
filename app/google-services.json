@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "834271687564",
+    "firebase_url": "https://covid-crisis-map.firebaseio.com",
+    "project_id": "covid-crisis-map",
+    "storage_bucket": "covid-crisis-map.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834271687564:android:a304478303d533acb39ca9",
+        "android_client_info": {
+          "package_name": "com.example.map"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834271687564-f9sfecgpv1frqpd3atka6tckq66qjk8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJMLxkVZZ4oTZtVqO7ejwZOTmPYFb1Qx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834271687564-f9sfecgpv1frqpd3atka6tckq66qjk8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

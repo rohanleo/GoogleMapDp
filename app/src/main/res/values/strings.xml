@@ -6,5 +6,7 @@
         <item>Grocery Shop</item>
         <item>Hospital</item>
         <item>Gas Station</item>
+        <item>Vegetable Shop</item>
+        <item>Medical Store</item>
     </string-array>
 </resources>
