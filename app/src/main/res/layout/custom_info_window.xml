@@ -111,7 +111,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Added by:"
+            android:text="Edited by:"
             android:textSize="3mm"
             android:id="@+id/askAdded"
             android:textStyle="bold"
@@ -132,7 +132,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Added on:"
+            android:text="Edited on:"
             android:textSize="3mm"
             android:id="@+id/askAddedOn"
             android:textStyle="bold"
@@ -161,7 +161,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="64dp"
+            android:layout_marginLeft="63dp"
             android:id="@+id/remark"
             />
     </LinearLayout>

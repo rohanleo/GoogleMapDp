@@ -59,7 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:hint="Enter opening time"
+            android:inputType="time"
+            android:hint="In 24hr format"
             android:id="@+id/openingTime1"
             />
     </LinearLayout>
@@ -81,7 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
-            android:hint="Enter closing time"
+            android:inputType="time"
+            android:hint="In 24Hr format"
             android:id="@+id/closingTime1"
             />
     </LinearLayout>
@@ -103,6 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:inputType="phone"
             android:hint="Enter Phone Number"
             android:id="@+id/phoneNum1"
             />
@@ -111,52 +114,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/linearLay6"
-        android:layout_below="@id/linearLay5">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Added by:"
-            android:textSize="3mm"
-            android:id="@+id/askAdded"
-            android:textStyle="bold"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="57dp"
-            android:hint="Enter your Name"
-            android:id="@+id/addedBy1"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linearLay7"
-        android:layout_below="@id/linearLay6">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Added on:"
-            android:textSize="3mm"
-            android:id="@+id/askAddedOn"
-            android:textStyle="bold"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="57dp"
-            android:hint="Enter date"
-            android:id="@+id/addedOn1"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:id="@+id/linearLay8"
-        android:layout_below="@id/linearLay7">
+        android:layout_below="@id/linearLay5">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -183,14 +142,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete Marker"
-            android:layout_marginLeft="10dp"
             android:id="@+id/delete"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Marker"
-            android:layout_marginLeft="10dp"
+            android:text="Save Changes"
             android:id="@+id/save"/>
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Chat"
+            android:id="@+id/chat"/>
     </LinearLayout>
 
 </RelativeLayout>

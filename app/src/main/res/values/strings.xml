@@ -2,6 +2,7 @@
     <string name="app_name">Covid19 Crisis Map</string>
 
     <string-array name="types">
+        <item>Others</item>
         <item>Grocery Shop</item>
         <item>Hospital</item>
         <item>Gas Station</item>
