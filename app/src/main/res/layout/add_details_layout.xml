@@ -143,17 +143,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete Marker"
+            android:layout_marginLeft="10dp"
             android:id="@+id/delete"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save Changes"
+            android:layout_marginLeft="20dp"
             android:id="@+id/save"/>
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="Chat"
-            android:id="@+id/chat"/>
     </LinearLayout>
 
 </RelativeLayout>

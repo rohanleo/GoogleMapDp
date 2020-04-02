@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Covid19 Crisis Map</string>
+    <string name="app_name">Resource Finder</string>
 
     <string-array name="types">
         <item>Others</item>
