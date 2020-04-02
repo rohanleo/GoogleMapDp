@@ -80,12 +80,4 @@
             android:textStyle="italic"/>
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/imageView"
-        android:background="@drawable/icon"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true" />
-
 </RelativeLayout>

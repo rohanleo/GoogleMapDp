@@ -56,12 +56,19 @@
             android:id="@+id/askOpening"
             android:textStyle="bold"
             android:textColor="#000"/>
+
+        <ImageView
+            android:id="@+id/clock1"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_clock" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:inputType="time"
-            android:hint="In 24hr format"
+            android:text="  Choose Time"
             android:id="@+id/openingTime1"
             />
     </LinearLayout>
@@ -79,12 +86,17 @@
             android:id="@+id/askClosing"
             android:textStyle="bold"
             android:textColor="#000"/>
+        <ImageView
+            android:id="@+id/clock2"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24dp"
+            android:src="@drawable/ic_clock" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
             android:inputType="time"
-            android:hint="In 24Hr format"
+            android:text="  Choose Time"
             android:id="@+id/closingTime1"
             />
     </LinearLayout>
@@ -140,16 +152,20 @@
         android:id="@+id/action"
         android:layout_below="@+id/linearLay8">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Delete Marker"
-            android:layout_marginLeft="10dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/border"
+            android:layout_marginLeft="5dp"
             android:id="@+id/delete"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:textColor="#ffffff"
             android:text="Save Changes"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:id="@+id/save"/>
     </LinearLayout>
 
