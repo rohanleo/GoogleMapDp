@@ -86,8 +86,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleApiClient.OnConnectionFailedListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "MapActivity";
     //Widgets
     private SearchView mSearchText;
@@ -102,7 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private LatLngBounds bounds;
     DatabaseReference databaseMarkers, databaseMessages;
 
-    private boolean isInfoDiplayed = false,addingMarkerEnabled=false, isTimePickerEnabled=false;
+    private boolean addingMarkerEnabled=false, isTimePickerEnabled=false;
 
 
     @Override
@@ -169,13 +168,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         img.setBackgroundResource(R.drawable.doctor);
                         options.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(view)));
                     }
-                    //if(bounds.contains(options.getPosition()))
-                    //{
-                        Marker mk = mMap.addMarker(options);
+                    Marker mk = mMap.addMarker(options);
+                    if(bounds != null){
+                        if(bounds.contains(options.getPosition()))
+                            mk.setDraggable(true);
+                    }else{
                         mk.setDraggable(true);
-                        markerList.add(mk);
-                        mk.setTag(info);
-                    //}
+                    }
+                    markerList.add(mk);
+                    mk.setTag(info);
                 }
             }
 
@@ -184,6 +185,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isTimePickerEnabled = false;
     }
 
     private void clickMap(){
@@ -214,6 +221,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     addingMarkerEnabled = false;
                     addMarker.setText("Add Marker");
                 }
+                isTimePickerEnabled =false;
             }
         });
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
@@ -246,22 +254,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(final Marker marker) {
-                moveCamera(marker.getPosition(),15f,"");
                 if (marker.getTag()==null){
                     setDetails(marker);
                     marker.setTitle("Details Available");
+                    return true;
                 }
-                else {
-                    if(isInfoDiplayed){
-                        marker.hideInfoWindow();
-                        isInfoDiplayed=false;
-                    }
-                    else{
-                        marker.showInfoWindow();
-                        isInfoDiplayed=true;
-                    }
-                }
-                return true;
+                return false;
             }
         });
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -297,6 +295,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         final EditText remark = view.findViewById(R.id.remark1);
         final EditText phoneNum = view.findViewById(R.id.phoneNum1);
         opening.setInputType(InputType.TYPE_NULL);
+        closing.setInputType(InputType.TYPE_NULL);
+        final InfoWindowData info;
+        if(marker.getTag()==null)
+        {
+            info = new InfoWindowData();
+            info.setId(databaseMarkers.push().getKey());
+            isTimePickerEnabled=true;
+        }
+        else
+        {
+            btndel.setText("Chat Room");
+            btnsave.setText("Edit Details");
+            info= (InfoWindowData) marker.getTag();
+            name.setText(info.getName());
+            name.setInputType(InputType.TYPE_NULL);
+            opening.setText(info.getOpening());
+            closing.setText(info.getClosing());
+            phoneNum.setText(info.getPhoneNum());
+            phoneNum.setInputType(InputType.TYPE_NULL);
+            remark.setText(info.getRemark());
+            remark.setInputType(InputType.TYPE_NULL);
+            type.setSelection(((ArrayAdapter<String>)type.getAdapter()).getPosition(info.getType()));
+            type.setEnabled(false);
+
+        }
         clock1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -308,14 +331,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             if(selectedHour>=12) ampm ="PM";
                             else ampm = "AM";
                             opening.setText(String.format("%02d",selectedHour) + ":" + String.format("%02d",selectedMinute)+ " " + ampm);
-                           // opening.setText(selectedHour + ":" + selectedMinute);
+                            // opening.setText(selectedHour + ":" + selectedMinute);
                         }
                     }, 0, 0,false);
                     mTimePicker.show();
                 }
             }
         });
-        closing.setInputType(InputType.TYPE_NULL);
         clock2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -333,35 +355,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         });
-
-        final InfoWindowData info;
-        if(marker.getTag()==null)
-        {
-            info = new InfoWindowData();
-            info.setId(databaseMarkers.push().getKey());
-            isTimePickerEnabled=true;
-        }
-        else
-        {
-            btndel.setText("Chat Room");
-            btnsave.setText("Edit Details");
-            info= (InfoWindowData) marker.getTag();
-            name.setText(info.getName());
-            name.setInputType(InputType.TYPE_NULL);
-            opening.setText(info.getOpening());
-            //opening.setInputType(InputType.TYPE_NULL);
-            //opening.setClickable(false);
-            closing.setText(info.getClosing());
-            //closing.setInputType(InputType.TYPE_NULL);
-            //closing.setClickable(false);
-            phoneNum.setText(info.getPhoneNum());
-            phoneNum.setInputType(InputType.TYPE_NULL);
-            remark.setText(info.getRemark());
-            remark.setInputType(InputType.TYPE_NULL);
-            type.setSelection(((ArrayAdapter<String>)type.getAdapter()).getPosition(info.getType()));
-            type.setEnabled(false);
-
-        }
         btndel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -422,18 +415,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         marker.setTag(info);
                     }
                 }else{
-                    isTimePickerEnabled=true;
-                    btndel.setText("Delete Marker");
-                    btnsave.setText("Save Changes");
-                    name.setInputType(InputType.TYPE_CLASS_TEXT);
-                    type.setEnabled(true);
-                    //opening.setInputType(InputType.TYPE_CLASS_TEXT);
-                    //opening.setClickable(true);
-                    //closing.setInputType(InputType.TYPE_CLASS_TEXT);
-                    //closing.setClickable(true);
-                    phoneNum.setInputType(InputType.TYPE_CLASS_TEXT);
-                    remark.setInputType(InputType.TYPE_CLASS_TEXT);
-                    marker.getTag();
+                    if(bounds.contains(marker.getPosition())){
+                        isTimePickerEnabled=true;
+                        btndel.setText("Delete Marker");
+                        btnsave.setText("Save Changes");
+                        name.setInputType(InputType.TYPE_CLASS_TEXT);
+                        type.setEnabled(true);
+                        //opening.setInputType(InputType.TYPE_CLASS_TEXT);
+                        //opening.setClickable(true);
+                        //closing.setInputType(InputType.TYPE_CLASS_TEXT);
+                        //closing.setClickable(true);
+                        phoneNum.setInputType(InputType.TYPE_CLASS_TEXT);
+                        remark.setInputType(InputType.TYPE_CLASS_TEXT);
+                        marker.getTag();
+                    }else{
+                        Toast.makeText(MapActivity.this,"Outside of your locality, can't edit",Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });

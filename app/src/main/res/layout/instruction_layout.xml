@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lay1"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -38,95 +38,127 @@
         android:layout_height="wrap_content"
         android:id="@+id/lay3"
         android:layout_below="@+id/lay2"
-        android:layout_marginTop="20dp">
-        <ImageView
+        android:layout_marginTop="8dp">
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:src="@drawable/doctor"
-            />
-        <ImageView
+            android:orientation="vertical"
+            android:layout_marginLeft="7dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/doctor"
+                android:id="@+id/icon1"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon1"
+                android:layout_marginTop="2dp"
+                android:text="Pharmacy"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:src="@drawable/fruit"
-            />
-        <ImageView
+            android:orientation="vertical"
+            android:layout_marginLeft="7dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fruit"
+                android:id="@+id/icon2"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon2"
+                android:layout_marginTop="2dp"
+                android:text="Vegetables"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:src="@drawable/fuel"
-            />
-        <ImageView
+            android:orientation="vertical"
+            android:layout_marginLeft="7dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fuel"
+                android:id="@+id/icon3"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon3"
+                android:layout_marginTop="2dp"
+                android:text="Gas Station"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:src="@drawable/hospital"
-            />
-        <ImageView
+            android:orientation="vertical"
+            android:layout_marginLeft="7dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/hospital"
+                android:id="@+id/icon4"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon4"
+                android:layout_marginTop="2dp"
+                android:text="Hospital"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:src="@drawable/shop"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lay4"
-        android:layout_below="@+id/lay3"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Pharmacy"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Vegetables"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Gas Station"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Hospital"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Groceries"
-            />
-
+            android:orientation="vertical"
+            android:layout_marginLeft="7dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shop"
+                android:id="@+id/icon5"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/icon5"
+                android:layout_marginTop="2dp"
+                android:text="Grocery Store"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:id="@+id/lay5"
-        android:layout_below="@+id/lay4">
+        android:layout_below="@+id/lay3">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="#000"
-            android:text="2. Info can be edited or deleted by clicking info window."/>
+            android:text="2. The will automatically point the map to your current location."/>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/lay6"
         android:layout_below="@+id/lay5">
@@ -134,14 +166,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3. Chat Room is available for each resource location."
+            android:text="3. Click on Map to add Marker and to add/view details click on the Marker."
             android:textColor="#000"/>
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/lay7"
         android:layout_below="@+id/lay6">
@@ -149,25 +181,68 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4. Searching any location will take you to the location."
+            android:text="4. Resource details can be edited by clicking on the Info Window. Chat Rooms are available for each resource location through the Info Window"
             android:textColor="#000"/>
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginBottom="40dp"
-        android:id="@+id/la8y"
+        android:id="@+id/lay8"
         android:layout_below="@+id/lay7">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5. App does not take any responsibility of any wrong info."
+            android:text="5. Searching any location from the search bar will take you to the location."
             android:textColor="#000"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/lay9"
+        android:layout_below="@+id/lay8">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6. You cant add/edit Marker outside of your locality(5km radius), But you can view the resource details and Chat Room."
+            android:textColor="#000"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/lay10"
+        android:layout_below="@+id/lay9">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7. You can drag Marker(in your locality) to set it to new location."
+            android:textColor="#000"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/lay11"
+        android:layout_below="@+id/lay10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8. Routing feature is enabled when any marker is clicked, A small routing icon in bottom right corner will take you to Google Maps for routing"
+            android:textColor="#000"/>
+
+    </LinearLayout>
 </RelativeLayout>

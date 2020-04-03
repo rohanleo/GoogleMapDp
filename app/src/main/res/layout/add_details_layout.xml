@@ -5,6 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLay1"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -26,6 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLay2"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_below="@+id/linearLay1">
         <TextView
             android:layout_width="wrap_content"
@@ -47,6 +51,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/linearLay3"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_below="@id/linearLay2">
         <TextView
             android:layout_width="wrap_content"
@@ -68,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="time"
-            android:text="  Choose Time"
+            android:hint="Choose Time"
             android:id="@+id/openingTime1"
             />
     </LinearLayout>
@@ -77,6 +83,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/linearLay4"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_below="@id/linearLay3">
         <TextView
             android:layout_width="wrap_content"
@@ -96,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="time"
-            android:text="  Choose Time"
+            android:hint="Choose Time"
             android:id="@+id/closingTime1"
             />
     </LinearLayout>
@@ -104,6 +112,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:id="@+id/linearLay5"
         android:layout_below="@id/linearLay4">
         <TextView
@@ -126,6 +136,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:orientation="horizontal"
         android:id="@+id/linearLay8"
         android:layout_below="@id/linearLay5">
@@ -145,28 +157,30 @@
             android:id="@+id/remark1"
             />
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/action"
         android:layout_below="@+id/linearLay8">
         <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
             android:text="Delete Marker"
             android:textColor="#ffffff"
             android:background="@drawable/border"
             android:layout_marginLeft="5dp"
+            android:layout_alignParentLeft="true"
             android:id="@+id/delete"/>
         <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="82dp"
+            android:layout_height="60dp"
             android:background="@drawable/border"
             android:textColor="#ffffff"
             android:text="Save Changes"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
             android:id="@+id/save"/>
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

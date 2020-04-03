@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
@@ -21,8 +23,14 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.start_activity);
 
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) || !isConnected ) {
             buildAlertMessageNoGps();
         }else {
             Handler handler = new Handler();
