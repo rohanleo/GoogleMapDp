@@ -1,103 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#F0FFFA"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lay1">
+        android:id="@+id/lay1"
+        android:layout_marginTop="150dp"
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="COVID 19 Crisis Map"
+            android:text="COVID Resource Finder"
             android:textStyle="bold"
+            android:textColor="#000"
             android:textSize="3mm"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="90dp"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lay2"
-        android:layout_below="@+id/lay1">
+        android:layout_below="@+id/lay1"
+        android:layout_marginTop="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. "
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="The web app will automatically point the map to your current location."/>
+            android:layout_marginLeft="5dp"
+            android:textColor="#000"
+            android:text="1. App shows location of finding different Resouces."/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lay3"
-        android:layout_below="@+id/lay2">
-        <TextView
+        android:layout_below="@+id/lay2"
+        android:layout_marginTop="20dp">
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2. "
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/doctor"
             />
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You can also click on the search bar on the top to move to any point in the map. Search queries can be any state, city, street etc."/>
+            android:layout_marginLeft="60dp"
+            android:src="@drawable/fruit"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:src="@drawable/fuel"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/hospital"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/shop"
+            />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lay4"
-        android:layout_below="@+id/lay3">
+        android:layout_below="@+id/lay3"
+        android:layout_marginTop="5dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3. "
-            android:textStyle="bold"
             android:layout_marginLeft="10dp"
+            android:text="Pharmacy"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Click will create a marker. Click on the marker to enter the properties of the resource. Current properties are: Name, Type (Grocery Shop, Hospital, Gas station), Opening time, Closing time, Phone number and Remarks."/>
+            android:layout_marginLeft="10dp"
+            android:text="Vegetables"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Gas Station"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Hospital"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Groceries"
+            />
+
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:id="@+id/lay5"
         android:layout_below="@+id/lay4">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4. "
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Click on Save Marker button to save the properties of the marker."/>
+            android:layout_marginLeft="5dp"
+            android:textColor="#000"
+            android:text="2. Info can be edited or deleted by clicking info window."/>
+
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
         android:id="@+id/lay6"
         android:layout_below="@+id/lay5">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5. "
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="The marker will be saved on the same location."/>
+            android:text="3. Chat Room is available for each resource location."
+            android:textColor="#000"/>
+
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/lay7"
+        android:layout_below="@+id/lay6">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4. Searching any location will take you to the location."
+            android:textColor="#000"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="40dp"
+        android:id="@+id/la8y"
+        android:layout_below="@+id/lay7">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5. App does not take any responsibility of any wrong info."
+            android:textColor="#000"/>
+
+    </LinearLayout>
+
 </RelativeLayout>
