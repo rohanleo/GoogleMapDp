@@ -3,10 +3,13 @@ package com.example.map;
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -200,6 +203,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             MarkerOptions options = new MarkerOptions().position(latLng).title("No Details");
                             Marker mk = mMap.addMarker(options);
                             mk.setDraggable(true);
+                            Toast.makeText(MapActivity.this, "Click Marker to Add Details", Toast.LENGTH_SHORT).show();
                         }
                     }else{
                         Toast.makeText(MapActivity.this,"Outside of your locality, Adding Marker Failed",Toast.LENGTH_LONG).show();
@@ -328,7 +332,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         final InfoWindowData info;
-        if(marker.getTitle().equals("No Details"))
+        if(marker.getTag()==null)
         {
             info = new InfoWindowData();
             info.setId(databaseMarkers.push().getKey());
@@ -363,12 +367,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Intent intent = new Intent(MapActivity.this,ChatActivity.class);
                     intent.putExtra("markerId",info.getId());
                     startActivity(intent);
-                }else{
-                    marker.remove();
-                    //markerList.remove(marker);
-                    databaseMarkers.child(info.getId()).removeValue();
-                    databaseMessages.child(info.getId()).removeValue();
                     materialStyledDialog.dismiss();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
+                    builder.setMessage("Are you sure to delete this resource location ?").setCancelable(false).
+                            setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    marker.remove();
+                                    //markerList.remove(marker);
+                                    databaseMarkers.child(info.getId()).removeValue();
+                                    databaseMessages.child(info.getId()).removeValue();
+                                    materialStyledDialog.dismiss();
+                                }
+                            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            return;
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             }
         });
@@ -410,11 +430,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     //closing.setClickable(true);
                     phoneNum.setInputType(InputType.TYPE_CLASS_TEXT);
                     remark.setInputType(InputType.TYPE_CLASS_TEXT);
+                    marker.getTag();
                 }
             }
         });
         materialStyledDialog.show();
-        marker.setTag(info);
         marker.hideInfoWindow();
     }
 
@@ -443,16 +463,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = getLayoutInflater().inflate(R.layout.instruction_layout,null);
-                final MaterialStyledDialog materialStyledDialog = new MaterialStyledDialog.Builder(MapActivity.this)
-                        .setTitle("How to use")
-                        .setCustomView(view, 10, 20, 10, 20)
-                        .withDialogAnimation(true, Duration.FAST)
-                        .setCancelable(true)
-                        .setStyle(Style.HEADER_WITH_TITLE)
-                        .withDarkerOverlay(true)
-                        .build();
-                materialStyledDialog.show();
+                Intent intent = new Intent(MapActivity.this,InfoActivity.class);
+                startActivity(intent);
+
             }
         });
         addMarker.setOnClickListener(new View.OnClickListener() {

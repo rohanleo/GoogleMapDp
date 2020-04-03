@@ -14,11 +14,25 @@
         android:gravity="center"
         android:orientation="vertical"
         android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:textColor="#F4A460"
+            android:textSize="30sp"
+            android:text="SIGN UP"
+            android:textStyle="bold"
+            />
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_form_rounded"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -60,23 +74,22 @@
         android:layout_marginTop="34dp"
         android:gravity="center"
         android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="#ADD8E6"
+        android:hapticFeedbackEnabled="true"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/submitButton"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="100dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold|italic"
-            android:layout_marginLeft="13dp"
-            android:text="NOTE:- "/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To be added"
+            android:text="CrowdSourcing Platform"
+            android:textColor="#000080"
+            android:textSize="3mm"
             android:textStyle="italic"/>
     </LinearLayout>
 

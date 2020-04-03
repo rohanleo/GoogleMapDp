@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please Turn on your location before opening Resource Finder ;)")
+        builder.setMessage("Please Turn on your location before opening Resource Finder")
                 .setCancelable(true);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable(){

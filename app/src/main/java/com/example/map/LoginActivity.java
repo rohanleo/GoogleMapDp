@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -58,7 +59,8 @@ public class LoginActivity extends AppCompatActivity {
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(googleServiceAvailable() && mLocationPermissionGranted){
+                    if(googleServiceAvailable() && mLocationPermissionGranted &&
+                    Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP){
                         if(unm.getText().toString().matches("") || phone.getText().toString().matches("")){
                             Toast.makeText(LoginActivity.this,"Please fill the details",Toast.LENGTH_LONG).show();
                         }else{
@@ -72,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(LoginActivity.this,"Wait for 2 sec",Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(LoginActivity.this,"Wait for 2 sec",Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(LoginActivity.this,MapActivity.class);
                                     startActivity(i);
                                     finish();
