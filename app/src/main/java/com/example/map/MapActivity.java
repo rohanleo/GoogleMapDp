@@ -28,9 +28,12 @@ import android.provider.Settings;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -83,9 +86,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "MapActivity";
-
     //Widgets
     private SearchView mSearchText;
     private ImageView mgps, mInfo;
@@ -97,10 +100,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ArrayList<Marker> markerList;
     private LatLngBounds.Builder builder;
     private LatLngBounds bounds;
-
     DatabaseReference databaseMarkers, databaseMessages;
 
     private boolean isInfoDiplayed = false,addingMarkerEnabled=false, isTimePickerEnabled=false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -440,8 +443,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void init(){
         Log.d(TAG,"init: initialising");
-        System.out.println("check1");
-        //markerList = new ArrayList<>();
         mSearchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -565,16 +566,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         return bitmap;
     }
-
-    /*private BitmapDescriptor bitmapDescriptorFromVector(@DrawableRes int vectorDrawableResourceId) {
-        //Drawable background = ContextCompat.getDrawable(MapActivity.this, (int) BitmapDescriptorFactory.HUE_AZURE);
-        //background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
-        Drawable vectorDrawable = ContextCompat.getDrawable(MapActivity.this, vectorDrawableResourceId);
-        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }*/
 }
