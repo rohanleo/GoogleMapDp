@@ -43,15 +43,14 @@
         android:src="@drawable/ic_info_black_24dp"/>
 
     <Button
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="Add"
-        android:textColor="#000"
+        android:text="Add Marker"
+        android:textColor="#ffffff"
         android:background="@drawable/border"
         android:id="@+id/addMarker"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="12dp"/>
 
 </RelativeLayout>
