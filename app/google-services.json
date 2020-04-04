@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:834271687564:android:a304478303d533acb39ca9",
         "android_client_info": {
-          "package_name": "com.example.map"
+          "package_name": "com.resource.finder"
         }
       },
       "oauth_client": [

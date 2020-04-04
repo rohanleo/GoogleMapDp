@@ -1,4 +1,4 @@
-package com.example.map;
+package com.resource.finder;
 
 import android.os.Bundle;
 

@@ -1,4 +1,4 @@
-package com.example.map;
+package com.resource.finder;
 
 public class InfoWindowData {
     private String name,type,phoneNum,opening,closing,openingEv,closingEv,addedby,addedon,remark,id;

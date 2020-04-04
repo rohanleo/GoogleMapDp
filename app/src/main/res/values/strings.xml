@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Resource Finder</string>
-
     <string-array name="types">
         <item>Others</item>
         <item>Grocery Shop</item>

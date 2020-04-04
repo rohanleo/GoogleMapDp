@@ -1,4 +1,4 @@
-package com.example.map;
+package com.resource.finder;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -71,14 +70,9 @@ public class LoginActivity extends AppCompatActivity {
                             editor.commit();
                             userName = sp.getString("unm","");
                             userPhoneNum = sp.getString("phone","");
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                public void run() {
-                                    Intent i = new Intent(LoginActivity.this,MapActivity.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-                            }, 1500);
+                            Intent i = new Intent(LoginActivity.this,MapActivity.class);
+                            startActivity(i);
+                            finish();
 
                         }
                     }

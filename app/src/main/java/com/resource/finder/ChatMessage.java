@@ -1,4 +1,4 @@
-package com.example.map;
+package com.resource.finder;
 
 public class ChatMessage {
     private String sender;
