@@ -36,50 +36,115 @@
             android:textColor="#0000ff"
             android:id="@+id/type"/>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout2"
+        android:layout_below="@+id/layout1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Morning:"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:id="@+id/morn"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/morn">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opening:"
+                android:id="@+id/askOpening"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#000"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/openingTime"
+                android:textColor="#0000ff"
+                android:layout_marginLeft="5dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Closing:"
+                android:id="@+id/askClosing"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:textSize="15sp"
+                android:textColor="#000"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/closingTime"
+                android:textColor="#0000ff"
+                android:layout_marginLeft="5dp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout3"
+        android:layout_below="@+id/layout2">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Evening:"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:id="@+id/even"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/even">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opening:"
+                android:id="@+id/askOpeningEv"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#000"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/openingTimeEv"
+                android:textColor="#0000ff"
+                android:layout_marginLeft="5dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Closing:"
+                android:id="@+id/askClosingEv"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:textSize="15sp"
+                android:textColor="#000"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/closingTimeEv"
+                android:textColor="#0000ff"
+                android:layout_marginLeft="5dp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout1"
-        android:id="@+id/layout2">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Opening:"
-            android:id="@+id/askOpening"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="#000"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/openingTime"
-            android:textColor="#0000ff"
-            android:layout_marginLeft="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Closing:"
-            android:id="@+id/askClosing"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            android:textSize="15sp"
-            android:textColor="#000"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/closingTime"
-            android:textColor="#0000ff"
-            android:layout_marginLeft="5dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout2"
-        android:id="@+id/layout3">
+        android:layout_below="@+id/layout3"
+        android:id="@+id/layout4">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,8 +165,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout3"
-        android:id="@+id/layout4">
+        android:layout_below="@+id/layout4"
+        android:id="@+id/layout5">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,7 +185,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout4"
+        android:layout_below="@+id/layout5"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"

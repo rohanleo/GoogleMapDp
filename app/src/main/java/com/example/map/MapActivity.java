@@ -1,22 +1,13 @@
 package com.example.map;
 
-import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -97,19 +88,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mfusedLocationProviderClient;
     private Location currentLocation;
     private ArrayList<Marker> markerList;
-    private LatLngBounds.Builder builder;
-    private LatLngBounds bounds;
+
     DatabaseReference databaseMarkers, databaseMessages;
 
     private boolean addingMarkerEnabled=false, isTimePickerEnabled=false;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         markerList = new ArrayList<>();
-        builder = new LatLngBounds.Builder();
+
         databaseMarkers= FirebaseDatabase.getInstance().getReference("geojson");
         databaseMessages = FirebaseDatabase.getInstance().getReference("messages");
         mSearchText = findViewById(R.id.input_search);
@@ -169,12 +158,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         options.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(view)));
                     }
                     Marker mk = mMap.addMarker(options);
-                    if(bounds != null){
-                        if(bounds.contains(options.getPosition()))
-                            mk.setDraggable(true);
-                    }else{
+                    if(SplashActivity.bounds.contains(options.getPosition()))
                         mk.setDraggable(true);
-                    }
                     markerList.add(mk);
                     mk.setTag(info);
                 }
@@ -200,7 +185,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if(addingMarkerEnabled){
                     Geocoder geocoder = new Geocoder(MapActivity.this);
                     List<Address> list = new ArrayList<>();
-                    if(bounds.contains(latLng)){
+                    if(SplashActivity.bounds.contains(latLng)){
                         try {
                             list = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
                         }catch (IOException e){
@@ -246,6 +231,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     info.setId(databaseMarkers.push().getKey());
                     info.setLat(latLng.latitude);
                     info.setLng(latLng.longitude);
+                    //info.setAddedby(LoginActivity.userName);
+                    //info.setAddedon(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
                     databaseMarkers.child(info.getId()).setValue(info);
                     marker.remove();
                 }
@@ -292,10 +279,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         final ImageView clock1 = view.findViewById(R.id.clock1);
         final EditText closing = view.findViewById(R.id.closingTime1);
         final ImageView clock2 = view.findViewById(R.id.clock2);
+        final EditText openingEv = view.findViewById(R.id.openingTime1Ev);
+        final ImageView clock1Ev = view.findViewById(R.id.clock1Ev);
+        final EditText closingEv = view.findViewById(R.id.closingTime1Ev);
+        final ImageView clock2Ev = view.findViewById(R.id.clock2Ev);
         final EditText remark = view.findViewById(R.id.remark1);
         final EditText phoneNum = view.findViewById(R.id.phoneNum1);
         opening.setInputType(InputType.TYPE_NULL);
         closing.setInputType(InputType.TYPE_NULL);
+        openingEv.setInputType(InputType.TYPE_NULL);
+        closingEv.setInputType(InputType.TYPE_NULL);
         final InfoWindowData info;
         if(marker.getTag()==null)
         {
@@ -312,6 +305,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             name.setInputType(InputType.TYPE_NULL);
             opening.setText(info.getOpening());
             closing.setText(info.getClosing());
+            openingEv.setText(info.getOpeningEv());
+            closingEv.setText(info.getClosingEv());
             phoneNum.setText(info.getPhoneNum());
             phoneNum.setInputType(InputType.TYPE_NULL);
             remark.setText(info.getRemark());
@@ -349,6 +344,41 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             if(selectedHour>=12) ampm ="PM";
                             else ampm = "AM";
                             closing.setText(String.format("%02d",selectedHour) + ":" + String.format("%02d",selectedMinute)+ " " + ampm);
+                        }
+                    }, 0, 0,false);
+                    mTimePicker.show();
+                }
+            }
+        });
+        clock1Ev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isTimePickerEnabled){
+                    TimePickerDialog mTimePicker = new TimePickerDialog(MapActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            String ampm;
+                            if(selectedHour>=12) ampm ="PM";
+                            else ampm = "AM";
+                            openingEv.setText(String.format("%02d",selectedHour) + ":" + String.format("%02d",selectedMinute)+ " " + ampm);
+                            // opening.setText(selectedHour + ":" + selectedMinute);
+                        }
+                    }, 0, 0,false);
+                    mTimePicker.show();
+                }
+            }
+        });
+        clock2Ev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isTimePickerEnabled){
+                    TimePickerDialog mTimePicker = new TimePickerDialog(MapActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            String ampm;
+                            if(selectedHour>=12) ampm ="PM";
+                            else ampm = "AM";
+                            closingEv.setText(String.format("%02d",selectedHour) + ":" + String.format("%02d",selectedMinute)+ " " + ampm);
                         }
                     }, 0, 0,false);
                     mTimePicker.show();
@@ -397,6 +427,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     info.setType(type.getSelectedItem().toString());
                     info.setOpening(opening.getText().toString());
                     info.setClosing(closing.getText().toString());
+                    info.setOpeningEv(openingEv.getText().toString());
+                    info.setClosingEv(closingEv.getText().toString());
                     info.setPhoneNum(phoneNum.getText().toString());
                     info.setAddedby(LoginActivity.userName);
                     info.setAddedon(java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
@@ -415,7 +447,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         marker.setTag(info);
                     }
                 }else{
-                    if(bounds.contains(marker.getPosition())){
+                    if(SplashActivity.bounds.contains(marker.getPosition())){
                         isTimePickerEnabled=true;
                         btndel.setText("Delete Marker");
                         btnsave.setText("Save Changes");
@@ -512,7 +544,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void getDeviceLocation(){
         Log.d(TAG,"getDeviceLocation: getting the device current location");
-        mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
                 Task location = mfusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
@@ -522,9 +554,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             Log.d(TAG, "onComplete: Found Location");
                             currentLocation = (Location) task.getResult();
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15f, "My location");
-                            builder.include(getsouthwest(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude())));
-                            builder.include(getnortheast(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude())));
-                            bounds = builder.build();
+                            SplashActivity.builder.include(getsouthwest(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude())));
+                            SplashActivity.builder.include(getnortheast(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude())));
+                            SplashActivity.bounds = SplashActivity.builder.build();
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
                             Toast.makeText(MapActivity.this, "Unable to get current location", Toast.LENGTH_SHORT).show();

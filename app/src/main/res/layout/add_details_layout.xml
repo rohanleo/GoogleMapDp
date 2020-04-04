@@ -46,68 +46,165 @@
             android:layout_marginLeft="97dp"
             android:entries="@array/types"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="3dp"
         android:id="@+id/linearLay3"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@id/linearLay2">
+        android:layout_below="@+id/linearLay2">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Opening Time:"
+            android:text="Morning:"
             android:textSize="3mm"
-            android:id="@+id/askOpening"
             android:textStyle="bold"
-            android:textColor="#000"/>
-
-        <ImageView
-            android:id="@+id/clock1"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_clock" />
-
-        <EditText
+            android:textColor="#000"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/morning"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="time"
-            android:hint="Choose Time"
-            android:id="@+id/openingTime1"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/li1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/morning">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opening Time:"
+                android:textSize="3mm"
+                android:id="@+id/askOpening"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+
+            <ImageView
+                android:id="@+id/clock1"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_clock" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="Choose Time"
+                android:id="@+id/openingTime1"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/li2"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@id/li1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Closing Time:"
+                android:textSize="3mm"
+                android:id="@+id/askClosing"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+            <ImageView
+                android:id="@+id/clock2"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="24dp"
+                android:src="@drawable/ic_clock" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="Choose Time"
+                android:id="@+id/closingTime1"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/linearLay4"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@id/linearLay3">
+        android:layout_below="@+id/linearLay3">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Closing Time:"
+            android:text="Evening:"
             android:textSize="3mm"
-            android:id="@+id/askClosing"
             android:textStyle="bold"
-            android:textColor="#000"/>
-        <ImageView
-            android:id="@+id/clock2"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="24dp"
-            android:src="@drawable/ic_clock" />
-        <EditText
+            android:textColor="#000"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/evening"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="time"
-            android:hint="Choose Time"
-            android:id="@+id/closingTime1"
-            />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:id="@+id/li3"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/evening">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opening Time:"
+                android:textSize="3mm"
+                android:id="@+id/askOpeningEv"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+
+            <ImageView
+                android:id="@+id/clock1Ev"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_clock" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="Choose Time"
+                android:id="@+id/openingTime1Ev"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/li4"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@id/li3">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Closing Time:"
+                android:textSize="3mm"
+                android:id="@+id/askClosingEv"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+            <ImageView
+                android:id="@+id/clock2Ev"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="24dp"
+                android:src="@drawable/ic_clock" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="Choose Time"
+                android:id="@+id/closingTime1Ev"
+                />
+        </LinearLayout>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

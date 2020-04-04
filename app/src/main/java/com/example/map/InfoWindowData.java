@@ -1,7 +1,7 @@
 package com.example.map;
 
 public class InfoWindowData {
-    private String name,type,phoneNum,opening,closing,addedby,addedon,remark,id;
+    private String name,type,phoneNum,opening,closing,openingEv,closingEv,addedby,addedon,remark,id;
     private double lat,lng;
 
     public String getId() {
@@ -58,6 +58,22 @@ public class InfoWindowData {
 
     public void setOpening(String opening) {
         this.opening = opening;
+    }
+
+    public String getOpeningEv() {
+        return openingEv;
+    }
+
+    public void setOpeningEv(String openingEv) {
+        this.openingEv = openingEv;
+    }
+
+    public String getClosingEv() {
+        return closingEv;
+    }
+
+    public void setClosingEv(String closingEv) {
+        this.closingEv = closingEv;
     }
 
     public String getClosing() {

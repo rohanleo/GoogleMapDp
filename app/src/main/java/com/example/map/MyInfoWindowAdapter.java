@@ -29,6 +29,8 @@ public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView type = view.findViewById(R.id.type);
         TextView opening = view.findViewById(R.id.openingTime);
         TextView closing = view.findViewById(R.id.closingTime);
+        TextView openingEv = view.findViewById(R.id.openingTimeEv);
+        TextView closingEv = view.findViewById(R.id.closingTimeEv);
         TextView addedby = view.findViewById(R.id.addedBy);
         TextView addedon = view.findViewById(R.id.addedOn);
         TextView remark = view.findViewById(R.id.remark);
@@ -40,6 +42,8 @@ public class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         type.setText(infoWindowData.getType());
         opening.setText(infoWindowData.getOpening());
         closing.setText(infoWindowData.getClosing());
+        openingEv.setText(infoWindowData.getOpeningEv());
+        closingEv.setText(infoWindowData.getClosingEv());
         addedby.setText(infoWindowData.getAddedby());
         addedon.setText(infoWindowData.getAddedon());
         remark.setText(infoWindowData.getRemark());
